@@ -33,7 +33,7 @@ public class DbTestServlet extends HttpServlet {
 
         // Step 2: Try to connect
         try (Connection con = DriverManager.getConnection(URL, USER, PASS)) {
-            resp.getWriter().println("✅ CONNECTED TO MySQL!");
+            resp.getWriter().println("✅ CONNECTED TO MySQL! YEYYY");
         } catch (Exception e) {
             resp.getWriter().println("❌ FAILED:");
             resp.getWriter().println(e.toString());
