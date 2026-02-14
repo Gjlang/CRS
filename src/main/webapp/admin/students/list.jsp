@@ -45,8 +45,9 @@
         <a href="<%= request.getContextPath() %>/admin/students/edit?id=<%= s.getStudentId() %>">Edit</a>
 
         |
-        <a href="<%= request.getContextPath() %>/admin/students/deactivate?id=<%= s.getStudentId() %>"
-           onclick="return confirm('Deactivate this student?');">Deactivate</a>
+       <a href="<%= request.getContextPath() %>/admin/students/deactivate?id=<%= s.getStudentId() %>"
+   			onclick="return confirm('Deactivate this student?');">Deactivate</a>
+
       </td>
     </tr>
   <%

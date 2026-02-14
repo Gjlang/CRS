@@ -1,41 +1,45 @@
 package com.myapp.servlet.student;
 
+import com.myapp.dao.StudentDAO;
+import com.myapp.model.User;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.*;
+
 import java.io.IOException;
 
-/**
- * Servlet implementation class StudentDeactivateServlet
- */
-@WebServlet("/StudentDeactivateServlet")
+@WebServlet("/admin/students/deactivate")
 public class StudentDeactivateServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public StudentDeactivateServlet() {
-        super();
-        // TODO Auto-generated constructor stub
+    private static final long serialVersionUID = 1L;
+
+    private final StudentDAO studentDAO = new StudentDAO();
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
+
+        HttpSession session = req.getSession(false);
+        User user = (session == null) ? null : (User) session.getAttribute("user");
+
+        if (user == null) {
+            resp.sendRedirect(req.getContextPath() + "/login.jsp");
+            return;
+        }
+        if (!"ADMIN".equals(user.getRole())) {
+            resp.sendError(HttpServletResponse.SC_FORBIDDEN, "ADMIN only");
+            return;
+        }
+
+        String id = req.getParameter("id");
+        if (id == null || id.trim().isEmpty()) {
+            resp.sendRedirect(req.getContextPath() + "/admin/students");
+            return;
+        }
+
+        studentDAO.deactivate(id.trim());
+
+        // always return back to list
+        resp.sendRedirect(req.getContextPath() + "/admin/students");
     }
-
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
-	}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
-	}
-
 }
