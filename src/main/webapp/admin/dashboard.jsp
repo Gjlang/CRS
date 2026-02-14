@@ -21,6 +21,19 @@
 
 <hr>
 
+<p>
+  <a href="<%= request.getContextPath() %>/admin/students">
+    <button type="button">Manage Students</button>
+  </a>
+</p>
+
+<p>
+  <a href="<%= request.getContextPath() %>/admin/students/create">
+    <button type="button">+ Create Student</button>
+  </a>
+</p>
+
+
 <a href="<%= request.getContextPath() %>/logout">
     <button>Logout</button>
 </a>
