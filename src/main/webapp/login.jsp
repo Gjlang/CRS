@@ -6,6 +6,15 @@
 </head>
 <body>
     <h2>Login</h2>
+    <%
+  String err = (String) request.getAttribute("error");
+  if (err != null) {
+%>
+  <p style="color:red;"><%= err %></p>
+<%
+  }
+%>
+    
 
     <form method="post" action="login">
         Email:<br/>
