@@ -42,6 +42,11 @@
     <button type="button">Progress Tracking</button>
   </a>
 </p>
+<p>
+  <a href="<%= request.getContextPath() %>/academic/notifications">
+    <button type="button">View Notifications</button>
+  </a>
+</p>
 
 
   <p>

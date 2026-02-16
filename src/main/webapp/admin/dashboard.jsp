@@ -61,6 +61,18 @@
   </a>
 </p>
 
+<p>
+  <a href="<%= request.getContextPath() %>/admin/notifications/send">
+    <button type="button">Send Notification</button>
+  </a>
+</p>
+
+<p>
+  <a href="<%= request.getContextPath() %>/admin/notifications/history">
+    <button type="button">Notification History</button>
+  </a>
+</p>
+
 
 
 </body>
