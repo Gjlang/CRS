@@ -43,5 +43,12 @@
     <button>Logout</button>
 </a>
 
+<p>
+  <a href="<%= request.getContextPath() %>/admin/results">
+    <button type="button">Manage Results</button>
+  </a>
+</p>
+
+
 </body>
 </html>

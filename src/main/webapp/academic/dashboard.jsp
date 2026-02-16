@@ -28,6 +28,13 @@
     <button>Logout</button>
 </a>
 
+<p>
+  <a href="<%= request.getContextPath() %>/academic/results">
+    <button type="button">View Results</button>
+  </a>
+</p>
+
+
   </ul>
 </body>
 </html>
