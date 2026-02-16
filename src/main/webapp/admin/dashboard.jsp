@@ -49,6 +49,12 @@
   </a>
 </p>
 
+<p>
+  <a href="<%= request.getContextPath() %>/admin/recovery-plans">
+    <button type="button">Recovery Plans</button>
+  </a>
+</p>
+
 
 </body>
 </html>
