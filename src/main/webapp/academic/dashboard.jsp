@@ -33,6 +33,12 @@
     </a>
   </p>
 
+<p>
+  <a href="<%= request.getContextPath() %>/academic/enrolments">
+    <button type="button">Confirm Enrolment</button>
+  </a>
+</p>
+
   <p>
     <a href="<%= request.getContextPath() %>/logout">
       <button type="button">Logout</button>
