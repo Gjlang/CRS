@@ -1,9 +1,11 @@
-package com.crs.servlet.auth;
+package com.myapp.servlet.auth;
 
-import com.crs.service.PasswordResetService;
+import com.myapp.service.PasswordResetService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.*;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 

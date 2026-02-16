@@ -63,7 +63,6 @@ public class EnrolmentDAO {
 
     // =========================
     // 3) Approve / Reject
-    // academicUserId can be stored if DB has approved_by column
     // =========================
     public boolean approve(int id, int academicUserId) {
         return setStatus(id, "APPROVED", academicUserId);
@@ -75,12 +74,9 @@ public class EnrolmentDAO {
 
     // =========================
     // 4) Set status (robust fallback)
-    // Try update status + approved_by + approved_at
-    // If columns not exist -> update status only
     // =========================
     public boolean setStatus(int id, String status, int academicUserId) {
 
-        // Try full update first
         String sqlFull = """
             UPDATE enrollments
             SET status = ?, approved_by = ?, approved_at = NOW()
@@ -98,7 +94,6 @@ public class EnrolmentDAO {
 
         } catch (SQLException fullFail) {
 
-            // Fallback: status only
             String sqlSimple = """
                 UPDATE enrollments
                 SET status = ?
@@ -118,6 +113,75 @@ public class EnrolmentDAO {
                 return false;
             }
         }
+    }
+
+    // =========================
+    // 5) Get max attempt number for a student + course
+    // =========================
+    public int getMaxAttempt(String studentId, String courseCode) {
+
+        String sql = """
+            SELECT COALESCE(MAX(attempt_number), 0) AS max_attempt
+            FROM enrollments
+            WHERE student_id = ?
+              AND course_code = ?
+        """;
+
+        try (Connection conn = DbUtil.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, studentId);
+            ps.setString(2, courseCode);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt("max_attempt");
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return 0;
+    }
+
+    // =========================
+    // 6) Create a new PENDING enrolment
+    // =========================
+    public int createPending(String studentId, String courseCode, int attemptNo) {
+
+        String sql = """
+            INSERT INTO enrollments
+            (student_id, course_code, semester, academic_year, attempt_number, status)
+            VALUES (?, ?, ?, ?, ?, 'PENDING')
+        """;
+
+        String semester = "1";
+        String academicYear = "2026";
+
+        try (Connection conn = DbUtil.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+
+            ps.setString(1, studentId);
+            ps.setString(2, courseCode);
+            ps.setString(3, semester);
+            ps.setString(4, academicYear);
+            ps.setInt(5, attemptNo);
+
+            ps.executeUpdate();
+
+            try (ResultSet keys = ps.getGeneratedKeys()) {
+                if (keys.next()) {
+                    return keys.getInt(1);
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return -1;
     }
 
     // =========================
