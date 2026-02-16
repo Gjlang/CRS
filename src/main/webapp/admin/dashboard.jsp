@@ -16,7 +16,7 @@
 </head>
 <body>
 
-<h2>Admin jaswawa</h2>
+<h2>Admin jaswaasasaaaawa</h2>
 <p>Welcome, <b><%= user.getName() %></b> | Role: <%= user.getRole() %></p>
 
 <hr>
@@ -33,6 +33,11 @@
   </a>
 </p>
 
+<p>
+  <a href="<%= request.getContextPath() %>/admin/courses">
+    <button type="button">Manage Courses</button>
+  </a>
+</p>
 
 <a href="<%= request.getContextPath() %>/logout">
     <button>Logout</button>
