@@ -17,24 +17,27 @@
 <html>
 <head><title>Academic Officer Dashboard</title></head>
 <body>
+
   <h2>Academic Officer Dashboard</h2>
   <p>Welcome, <b><%= user.getName() %></b> | Role: <%= user.getRole() %></p>
 
-  <ul>
-    <li><a href="<%= request.getContextPath() %>/eligibility">Check Eligibility</a></li>
-    <li><a href="<%= request.getContextPath() %>/enrolments">Confirm Enrolment</a></li>
-    <li><a href="<%= request.getContextPath() %>/reports">View Reports</a></li>
+  <p>
+    <a href="<%= request.getContextPath() %>/academic/eligibility">
+      <button type="button">Eligibility Check</button>
+    </a>
+  </p>
+
+  <p>
+    <a href="<%= request.getContextPath() %>/academic/results">
+      <button type="button">View Results</button>
+    </a>
+  </p>
+
+  <p>
     <a href="<%= request.getContextPath() %>/logout">
-    <button>Logout</button>
-</a>
+      <button type="button">Logout</button>
+    </a>
+  </p>
 
-<p>
-  <a href="<%= request.getContextPath() %>/academic/results">
-    <button type="button">View Results</button>
-  </a>
-</p>
-
-
-  </ul>
 </body>
 </html>

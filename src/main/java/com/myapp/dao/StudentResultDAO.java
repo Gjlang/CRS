@@ -188,7 +188,70 @@ public class StudentResultDAO {
     }
 
     // =========================
-    // MAP
+    // NEW: Count failed courses for a student
+    // Rule A uses this.
+    // =========================
+    public int countFailedCourses(String studentId) {
+        String sql = """
+            SELECT COUNT(*) AS fail_count
+            FROM student_results r
+            JOIN enrollments e ON r.enrolment_id = e.enrolment_id
+            WHERE e.student_id = ?
+              AND r.passed = 0
+        """;
+
+        try (Connection conn = DbUtil.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, studentId);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) return rs.getInt("fail_count");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return 0;
+    }
+
+    // =========================
+    // NEW: Simple GPA/CGPA approximation
+    // If your DB doesn't store CGPA, we compute AVG(grade_point).
+    // If no results -> return null.
+    // =========================
+    public Double calculateAverageGradePoint(String studentId) {
+        String sql = """
+            SELECT AVG(r.grade_point) AS avg_gp
+            FROM student_results r
+            JOIN enrollments e ON r.enrolment_id = e.enrolment_id
+            WHERE e.student_id = ?
+              AND r.grade_point IS NOT NULL
+        """;
+
+        try (Connection conn = DbUtil.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, studentId);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    double v = rs.getDouble("avg_gp");
+                    if (rs.wasNull()) return null;
+                    return v;
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    // =========================
+    // MAP (JOIN result -> StudentResult)
     // =========================
     private StudentResult mapRow(ResultSet rs) throws SQLException {
         StudentResult r = new StudentResult();
