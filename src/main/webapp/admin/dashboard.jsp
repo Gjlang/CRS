@@ -55,6 +55,13 @@
   </a>
 </p>
 
+<p>
+  <a href="<%= request.getContextPath() %>/admin/milestones">
+    <button type="button">Milestones</button>
+  </a>
+</p>
+
+
 
 </body>
 </html>

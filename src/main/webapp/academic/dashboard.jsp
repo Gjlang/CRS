@@ -32,12 +32,17 @@
       <button type="button">View Results</button>
     </a>
   </p>
-
 <p>
   <a href="<%= request.getContextPath() %>/academic/enrolments">
     <button type="button">Confirm Enrolment</button>
   </a>
 </p>
+<p>
+  <a href="<%= request.getContextPath() %>/academic/progress">
+    <button type="button">Progress Tracking</button>
+  </a>
+</p>
+
 
   <p>
     <a href="<%= request.getContextPath() %>/logout">
